@@ -15,6 +15,8 @@ import { CountryEditComponent } from './countries/country-edit.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularMaterialModule } from './angular-material.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
+import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 
 @NgModule({
   declarations: [
@@ -33,9 +35,14 @@ import { ReactiveFormsModule } from '@angular/forms';
     AppRoutingModule,
     BrowserAnimationsModule,
     AngularMaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ApiAuthorizationModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthorizeInterceptor,
+    multi:true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
